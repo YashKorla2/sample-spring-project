@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans.xsd
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context.xsd
+                        http://www.springframework.org/schema/mvc
+						http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+
+	<import resource="classpath:/META-INF/spring/applicationContext-service.xml" />
+
+
+	<!--load my database properties file -->
+
+	<context:property-placeholder location="classpath:database.properties" />
+
+	<!--scan my controller package -->
+
+	<context:component-scan base-package="com.mylab.cromero.web.controller" />
+
+	<!--enable jsr 303 validation -->
+
+	<mvc:annotation-driven>
+		<mvc:argument-resolvers>
+			<bean
+				class="org.springframework.data.web.PageableHandlerMethodArgumentResolver" />
+		</mvc:argument-resolvers>
+	</mvc:annotation-driven>
+
+	<!--must to scan resources folder -->
+
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+
+	<!-- bind messages.properties -->
+	<bean class="org.springframework.context.support.ResourceBundleMessageSource"
+		id="messageSource">
+		<property name="basename" value="messages" />
+	</bean>
+
+	<bean class="org.springframework.data.web.config.SpringDataWebConfiguration" />
+
+
+</beans>
